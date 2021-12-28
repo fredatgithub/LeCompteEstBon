@@ -31,6 +31,10 @@ namespace LeMotLePlusLong
         {
             textBoxResult.Text = string.Empty;
             // generate 10 letters
+            List<char> voyelles2 = new List<char> { 'a', 'e', 'i', 'o', 'u', 'y'};
+            string voyelles = "aeiouy";
+            // List<char> consonnes = new List<char> { 'b', 'c' };
+            string consonnes = "bcdfghjklmnpqrstvwxz";
 
         }
 
