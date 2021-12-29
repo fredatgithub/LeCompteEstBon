@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Le_compte_est_bon_NET48
 {
-    internal class Program
+  internal class Program
     {
         static int Niveau = 0;
         static int NumberOfNumbers = 6;     // Nombre de nombres

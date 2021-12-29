@@ -42,7 +42,6 @@ namespace LibraryLeCompteEstbon
         if (Operations[i].Intermediare)
         {
           result += Operations[i].Number1 + " " + Operations[i].TheOperation + " " + Operations[i].Number2 + " = " + Operations[i].Total + Environment.NewLine;
-          // Console.WriteLine(Operations[i].Number1 + " " + Operations[i].TheOperation + " " + Operations[i].Number2 + " = " + Operations[i].Total);
         }
       }
 
@@ -51,27 +50,33 @@ namespace LibraryLeCompteEstbon
         if (Operations[i].Intermediare == false)
         {
           result += Operations[i].Number1 + " " + Operations[i].TheOperation + " " + Operations[i].Number2 + " = " + Operations[i].Total + Environment.NewLine;
-          // Console.WriteLine(Operations[i].Number1 + " " + Operations[i].TheOperation + " " + Operations[i].Number2 + " = " + Operations[i].Total);
         }
       }
 
       return result;
     }
 
-    public static string CalculateIfTheCountIscorrect(int number1, int number2, int number3, int number4, int number5, int number6, int totalToBeReached)
+    public static bool IsTheCountJust(int number1, int number2, int number3, int number4, int number5, int number6, int totalToBeReached)
     {
-      Action<string> display = Console.WriteLine;
       int[] Nombres = new int[NumberOfNumbers];
-      int Total;
+      int theTotal;
+      Nombres[0] = number1;
+      Nombres[1] = number2;
+      Nombres[2] = number3;
+      Nombres[3] = number4;
+      Nombres[4] = number5;
+      Nombres[5] = number6;
 
-      // saisir les N nombres
-      string candidateNumbers;
-      //for (int i = 0; i < NumberOfNumbers; ++i)
-      //{
-      //  Console.Write("Veuillez entrer le numéro N[" + i + "] ? ");
-      //  candidateNumbers = Console.ReadLine();
-      //  Nombres[i] = int.Parse(candidateNumbers);
-      //}
+      theTotal = totalToBeReached;
+      // rechercher LA solution
+      bool found = LeCompteEstIlBon(Nombres, theTotal, 0);
+      return found;
+    }
+
+    public static string CalculateIfTheCountIsCorrect(int number1, int number2, int number3, int number4, int number5, int number6, int totalToBeReached)
+    {
+      int[] Nombres = new int[NumberOfNumbers];
+      int theTotal;
 
       Nombres[0] = number1;
       Nombres[1] = number2;
@@ -80,37 +85,28 @@ namespace LibraryLeCompteEstbon
       Nombres[4] = number5;
       Nombres[5] = number6;
 
-
-      // saisie du total
-      // Console.Write("Quel est le total a atteindre ? ");
-      // candidateNumbers = Console.ReadLine();
-      //Total = int.Parse(candidateNumbers);
-      Total = totalToBeReached;
-      //display("Veuillez patienter pendant la recherche d'une solution ....");
+      theTotal = totalToBeReached;
       // rechercher LA solution
-      bool found = LeCompteEstIlBon(Nombres, Total, 0);
+      bool found = LeCompteEstIlBon(Nombres, theTotal, 0);
       if (found)
       {
-        Console.WriteLine("Le compte est bon !");
-        // AfficherRésultat();
-        // display("press any key to exit:");
-        // Console.ReadKey();
-        return AfficherRésultat(); 
+        //Console.WriteLine("Le compte est bon !");
+        return AfficherRésultat();
       }
 
       // LA solution n'ayant pas été trouvée, rechercher la solution la plus proche
       int incrementation = 0;
       do
       {
-        found = LeCompteEstIlBon(Nombres, Total + incrementation, 0);
+        found = LeCompteEstIlBon(Nombres, theTotal + incrementation, 0);
         if (found == false)
         {
-          found = LeCompteEstIlBon(Nombres, Total - incrementation, 0);
+          found = LeCompteEstIlBon(Nombres, theTotal - incrementation, 0);
         }
 
         incrementation++;
       } while (found == false);
-      
+
       // Console.WriteLine("Meilleure solution : ");
       return AfficherRésultat();
     }

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using LibraryLeCompteEstbon;
 
 namespace LeCompteEstBonAvecbibliotheque
 {
@@ -11,8 +8,25 @@ namespace LeCompteEstBonAvecbibliotheque
     static void Main()
     {
       Action<string> Display = Console.WriteLine;
-      Display("recherche si le compte est bon en utilisant ma bibliothèque");
+      Display("Recherche si le compte est bon en utilisant ma bibliothèque");
+      Display(string.Empty);
+      Display("Recherche du total 111 avec les nombres 1,2,3,4,5,6");
+      Display(string.Empty);
+      if (ClassLeCompteEstBon.IsTheCountJust(1, 2, 3, 4, 5, 6, 111))
+      {
+        Console.ForegroundColor = ConsoleColor.Green;
+        Display("Le compte est bon :");
+      }
+      else
+      {
+        Console.ForegroundColor = ConsoleColor.Red;
+        Display("Le compte n'est pas bon mais la meilleure solution est :");
+      }
 
+      Display(string.Empty);
+      Display($"{ClassLeCompteEstBon.CalculateIfTheCountIsCorrect(1, 2, 3, 4, 5, 6, 111)}");
+      Display(string.Empty);
+      Console.ForegroundColor = ConsoleColor.White;
       Display("press any key to exit:");
       Console.ReadKey();
     }
