@@ -9,60 +9,61 @@ namespace Le_compte_est_bon_NET48
     internal class Program
     {
         static int Niveau = 0;
-        static int N = 6;     // Nombre de nombres
-        struct OPERATION
+        static int NumberOfNumbers = 6;     // Nombre de nombres
+        struct Operation
         {
             public int Total;
-            public int N1, N2;
-            public char op;
-            public bool interm;
+            public int Number1;
+            public int Number2;
+            public char TheOperation;
+            public bool Intermediare;
         }
 
-        static OPERATION[] Ops = new OPERATION[10];
+        static Operation[] Operations = new Operation[10];
 
 
-        static void RetenirOpération(int Niv, int N1, char op, int N2, int TOTAL, bool interm)
+        public static void RetenirOpération(int niveau, int number1, char operation, int number2, int total, bool intermediare)
         {
-            Ops[Niv].N1 = N1; Ops[Niv].N2 = N2; Ops[Niv].Total = TOTAL;
-            Ops[Niv].op = op;
-            Ops[Niv].interm = interm;
-            if (Niveau < Niv)
+            Operations[niveau].Number1 = number1; Operations[niveau].Number2 = number2; Operations[niveau].Total = total;
+            Operations[niveau].TheOperation = operation;
+            Operations[niveau].Intermediare = intermediare;
+            if (Niveau < niveau)
             {
-                Niveau = Niv;
+                Niveau = niveau;
             }
         }
 
-        static void AfficherRésultat()
+        public static void AfficherRésultat()
         {
             // Afficher d'abord les calculs intermédiaires
             for (int i = 0; i < Niveau; i++)
             {
-                if (Ops[i].interm)
+                if (Operations[i].Intermediare)
                 {
-                    Console.WriteLine(Ops[i].N1 + " " + Ops[i].op + " " + Ops[i].N2 + " = " + Ops[i].Total);
+                    Console.WriteLine(Operations[i].Number1 + " " + Operations[i].TheOperation + " " + Operations[i].Number2 + " = " + Operations[i].Total);
                 }
             }
 
             for (int i = Niveau; i >= 0; i--)
             {
-                if (Ops[i].interm == false)
+                if (Operations[i].Intermediare == false)
                 {
-                    Console.WriteLine(Ops[i].N1 + " " + Ops[i].op + " " + Ops[i].N2 + " = " + Ops[i].Total);
+                    Console.WriteLine(Operations[i].Number1 + " " + Operations[i].TheOperation + " " + Operations[i].Number2 + " = " + Operations[i].Total);
                 }
             }
         }
 
-        static void Main()
+        private static void Main()
         {
             Action<string> display = Console.WriteLine;
             display("Le compte est bon inspiré du fameux jeu télévisé");
             display(string.Empty);
-            int[] Nombres = new int[N];
+            int[] Nombres = new int[NumberOfNumbers];
             int Total;
 
             // saisir les N nombres
             string s;
-            for (int i = 0; i < N; ++i)
+            for (int i = 0; i < NumberOfNumbers; ++i)
             {
                 Console.Write("Veuillez entrer le numéro N[" + i + "] ? ");
                 s = Console.ReadLine(); Nombres[i] = int.Parse(s);
