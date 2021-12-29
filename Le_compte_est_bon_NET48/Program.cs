@@ -75,7 +75,7 @@ namespace Le_compte_est_bon_NET48
             display(string.Empty);
             display("Veuillez patienter pendant la recherche d'une solution ....");
             // rechercher LA solution
-            bool trouvé = lcb(Nombres, Total, 0);
+            bool trouvé = LeCompteEstIlBon(Nombres, Total, 0);
             if (trouvé)
             {
                 Console.WriteLine("Le compte est bon !");
@@ -88,10 +88,10 @@ namespace Le_compte_est_bon_NET48
             int inc = 0;
             do
             {
-                trouvé = lcb(Nombres, Total + inc, 0);
+                trouvé = LeCompteEstIlBon(Nombres, Total + inc, 0);
                 if (trouvé == false)
                 {
-                    trouvé = lcb(Nombres, Total - inc, 0);
+                    trouvé = LeCompteEstIlBon(Nombres, Total - inc, 0);
                 }
 
                 inc++;
@@ -101,63 +101,63 @@ namespace Le_compte_est_bon_NET48
             Console.Read();
         }
 
-        static bool EssaiOpération(int TOTAL, int NB, int[] tr, int Niv)
+        public static bool EssaiOpération(int total, int number, int[] tableauNombres, int niveau)
         {
-            bool trouvé;
+            bool found;
 
-            if (TOTAL <= 0)
+            if (total <= 0)
             {
                 return false;
             }
 
             // Peut-on réaliser TOTAL = NB + ? (? désignant une combinaison des nombres restants)
-            if (TOTAL > NB)
+            if (total > number)
             {
-                trouvé = lcb(tr, TOTAL - NB, Niv + 1);
-                if (trouvé)
+                found = LeCompteEstIlBon(tableauNombres, total - number, niveau + 1);
+                if (found)
                 {
-                    RetenirOpération(Niv, NB, '+', (TOTAL - NB), TOTAL, false);
+                    RetenirOpération(niveau, number, '+', (total - number), total, false);
                     return true;
                 }
             }
 
             // Peut-on réaliser TOTAL = NB - ?
-            if (TOTAL < NB)
+            if (total < number)
             {
-                trouvé = lcb(tr, NB - TOTAL, Niv + 1);
-                if (trouvé)
+                found = LeCompteEstIlBon(tableauNombres, number - total, niveau + 1);
+                if (found)
                 {
-                    RetenirOpération(Niv, NB, '-', (NB - TOTAL), TOTAL, false);
+                    RetenirOpération(niveau, number, '-', (number - total), total, false);
                     return true;
                 }
             }
 
             // Peut-on réaliser TOTAL = ? - NB
-            trouvé = lcb(tr, NB + TOTAL, Niv + 1);
-            if (trouvé)
+            found = LeCompteEstIlBon(tableauNombres, number + total, niveau + 1);
+            if (found)
             {
-                RetenirOpération(Niv, (TOTAL + NB), '-', NB, TOTAL, false);
+                RetenirOpération(niveau, (total + number), '-', number, total, false);
                 return true;
             }
 
             // Peut-on réaliser TOTAL = NB * ?
-            if (TOTAL % NB == 0)
+            if (total % number == 0)
             {
-                trouvé = lcb(tr, TOTAL / NB, Niv + 1);
-                if (trouvé)
+                found = LeCompteEstIlBon(tableauNombres, total / number, niveau + 1);
+                if (found)
                 {
-                    RetenirOpération(Niv, NB, '*', (TOTAL / NB), TOTAL, false);
+                    RetenirOpération(niveau, number, '*', (total / number), total, false);
                     return true;
                 }
             }
 
             // Peut-on réaliser TOTAL = NB / ?
-            if (NB % TOTAL == 0)
+            if (number % total == 0)
             {
-                trouvé = lcb(tr, NB / TOTAL, Niv + 1);
-                if (trouvé)
+                found = LeCompteEstIlBon(tableauNombres, number / total, niveau + 1);
+                if (found)
                 {
-                    RetenirOpération(Niv, NB, '/', (NB / TOTAL), TOTAL, false);
+                    RetenirOpération(niveau, number, '/', (number / total), total, false);
                     return true;
                 }
             }
@@ -165,51 +165,51 @@ namespace Le_compte_est_bon_NET48
             return false;
         }
 
-        static bool lcb(int[] N, int TOTAL, int Niv)
+        public static bool LeCompteEstIlBon(int[] numbers, int total, int niveau)
         {
-            bool trouvé;
-            int[] tr;
+            bool found;
+            int[] tableauRestant;
 
-            if (TOTAL <= 0 || N.Length == 0)
+            if (total <= 0 || numbers.Length == 0)
             {
-                //    Console.WriteLine("Dans lcb avec TOTAL < 0");
                 return false;
             }
 
 
             // trier le tableau des nombres restants par ordre décroissant
-            Array.Sort(N); Array.Reverse(N);
+            Array.Sort(numbers); 
+            Array.Reverse(numbers);
 
             // Un seul des nombres restants ferait-il l'affaire ?
-            for (int i = 0; i < N.Length; i++)
+            for (int i = 0; i < numbers.Length; i++)
             {
-                if (N[i] == TOTAL)
+                if (numbers[i] == total)
                 {
                     return true;
                 }
             }
 
             // s'il ne reste plus que deux nombres ....
-            if (N.Length == 2)
+            if (numbers.Length == 2)
             {
-                return TrouverDansDeux(TOTAL, N[0], N[1], Niv);
+                return TrouverDansDeux(total, numbers[0], numbers[1], niveau);
             }
 
             // prendre l'un des nombres restants et essayer une combinaison à partir de ce nombre
-            for (int i = 0; i < N.Length; i++)
+            for (int i = 0; i < numbers.Length; i++)
             {
                 // Préparer le tableau tr des nombres restants
-                tr = new int[N.Length - 1];
-                for (int j = 0, k = 0; j < N.Length; j++)
+                tableauRestant = new int[numbers.Length - 1];
+                for (int j = 0, k = 0; j < numbers.Length; j++)
                 {
                     if (i != j)
                     {
-                        tr[k] = N[j]; k++;
+                        tableauRestant[k] = numbers[j]; k++;
                     }
                 }
 
-                trouvé = EssaiOpération(TOTAL, N[i], tr, Niv);
-                if (trouvé)
+                found = EssaiOpération(total, numbers[i], tableauRestant, niveau);
+                if (found)
                 {
                     return true;
                 }
@@ -217,96 +217,96 @@ namespace Le_compte_est_bon_NET48
 
             // essayer ensuite une opération à partir de deux nombres
 
-            if (N.Length < 3)
+            if (numbers.Length < 3)
             {
                 Console.WriteLine("Ici avec un tableau de moins de 3 éléments !!");
                 return false;
             }
 
-            for (int i = 0; i < N.Length; i++)                      // choix du premier nombre
+            for (int i = 0; i < numbers.Length; i++)                      // choix du premier nombre
             {
                 // prendre un deuxième nombre parmi les restants
-                for (int j = i + 1; j < N.Length; j++)                   // choix du deuxième nombre
+                for (int j = i + 1; j < numbers.Length; j++)                   // choix du deuxième nombre
                 {
-                    tr = new int[N.Length - 2];
+                    tableauRestant = new int[numbers.Length - 2];
                     int n = 0;
-                    for (int k = 0; k < N.Length; k++)
+                    for (int k = 0; k < numbers.Length; k++)
                     {
                         if (k != i && k != j)
                         {
-                            tr[n] = N[k]; n++; 
+                            tableauRestant[n] = numbers[k]; n++;
                         }
                     }
 
                     // essayer l'addition de ces deux nombres  
                     // ajouter la somme au tableau des nombres restants
-                    int[] tr2 = new int[tr.Length + 1];
-                    for (int k = 0; k < tr.Length; k++)
+                    int[] tr2 = new int[tableauRestant.Length + 1];
+                    for (int k = 0; k < tableauRestant.Length; k++)
                     {
-                        tr2[k] = tr[k];
+                        tr2[k] = tableauRestant[k];
                     }
 
-                    tr2[tr.Length] = N[i] + N[j];
+                    tr2[tableauRestant.Length] = numbers[i] + numbers[j];
                     Array.Sort(tr2); Array.Reverse(tr2);
-                    trouvé = lcb(tr2, TOTAL, Niv + 1);
-                    if (trouvé)
+                    found = LeCompteEstIlBon(tr2, total, niveau + 1);
+                    if (found)
                     {
-                        RetenirOpération(Niv, N[i], '+', N[j], N[i] + N[j], true);
+                        RetenirOpération(niveau, numbers[i], '+', numbers[j], numbers[i] + numbers[j], true);
                         return true;
                     }
 
                     // essayer la soustraction de ces deux nombres   
                     // ajouter la différence au tableau des nombres restants
-                    tr2 = new int[tr.Length + 1];
-                    for (int k = 0; k < tr.Length; k++)
+                    tr2 = new int[tableauRestant.Length + 1];
+                    for (int k = 0; k < tableauRestant.Length; k++)
                     {
-                        tr2[k] = tr[k];
+                        tr2[k] = tableauRestant[k];
                     }
 
-                    tr2[tr.Length] = N[i] - N[j];
+                    tr2[tableauRestant.Length] = numbers[i] - numbers[j];
                     Array.Sort(tr2); Array.Reverse(tr2);
-                    if (N[i] != N[j])
+                    if (numbers[i] != numbers[j])
                     {
-                        trouvé = lcb(tr2, TOTAL, Niv + 1);
-                        if (trouvé)
+                        found = LeCompteEstIlBon(tr2, total, niveau + 1);
+                        if (found)
                         {
-                            RetenirOpération(Niv, N[i], '-', N[j], N[i] - N[j], true);
+                            RetenirOpération(niveau, numbers[i], '-', numbers[j], numbers[i] - numbers[j], true);
                             return true;
                         }
                     }
 
                     // essayer la multiplication de ces deux nombres   
                     // ajouter le produit au tableau des nombres restants
-                    tr2 = new int[tr.Length + 1];
-                    for (int k = 0; k < tr.Length; k++)
+                    tr2 = new int[tableauRestant.Length + 1];
+                    for (int k = 0; k < tableauRestant.Length; k++)
                     {
-                        tr2[k] = tr[k];
+                        tr2[k] = tableauRestant[k];
                     }
 
-                    tr2[tr.Length] = N[i] * N[j];
+                    tr2[tableauRestant.Length] = numbers[i] * numbers[j];
                     Array.Sort(tr2); Array.Reverse(tr2);
-                    trouvé = lcb(tr2, TOTAL, Niv + 1);
-                    if (trouvé)
+                    found = LeCompteEstIlBon(tr2, total, niveau + 1);
+                    if (found)
                     {
-                        RetenirOpération(Niv, N[i], '*', N[j], N[i] * N[j], true);
+                        RetenirOpération(niveau, numbers[i], '*', numbers[j], numbers[i] * numbers[j], true);
                         return true;
                     }
 
                     // essayer la division de ces deux nombres 
-                    if (N[i] % N[j] == 0)
+                    if (numbers[i] % numbers[j] == 0)
                     {
-                        tr2 = new int[tr.Length + 1];
-                        for (int k = 0; k < tr.Length; k++)
+                        tr2 = new int[tableauRestant.Length + 1];
+                        for (int k = 0; k < tableauRestant.Length; k++)
                         {
-                            tr2[k] = tr[k];
+                            tr2[k] = tableauRestant[k];
                         }
 
-                        tr2[tr.Length] = N[i] / N[j];
+                        tr2[tableauRestant.Length] = numbers[i] / numbers[j];
                         Array.Sort(tr2); Array.Reverse(tr2);
-                        trouvé = lcb(tr2, TOTAL, Niv + 1);
-                        if (trouvé)
+                        found = LeCompteEstIlBon(tr2, total, niveau + 1);
+                        if (found)
                         {
-                            RetenirOpération(Niv, N[i], '/', N[j], N[i] / N[j], true);
+                            RetenirOpération(niveau, numbers[i], '/', numbers[j], numbers[i] / numbers[j], true);
                             return true;
                         }
                     }
@@ -356,6 +356,6 @@ namespace Le_compte_est_bon_NET48
             }
 
             return false;
-        }    
-    }        
-}            
+        }
+    }
+}
