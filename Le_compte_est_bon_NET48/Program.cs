@@ -62,41 +62,42 @@ namespace Le_compte_est_bon_NET48
             int Total;
 
             // saisir les N nombres
-            string s;
+            string candidateNumbers;
             for (int i = 0; i < NumberOfNumbers; ++i)
             {
                 Console.Write("Veuillez entrer le numéro N[" + i + "] ? ");
-                s = Console.ReadLine(); Nombres[i] = int.Parse(s);
+                candidateNumbers = Console.ReadLine(); Nombres[i] = int.Parse(candidateNumbers);
             }
 
             // saisie du total
             Console.Write("Quel est le total a atteindre ? ");
-            s = Console.ReadLine();
-            Total = int.Parse(s);
+            candidateNumbers = Console.ReadLine();
+            Total = int.Parse(candidateNumbers);
             display(string.Empty);
             display("Veuillez patienter pendant la recherche d'une solution ....");
             // rechercher LA solution
-            bool trouvé = LeCompteEstIlBon(Nombres, Total, 0);
-            if (trouvé)
+            bool found = LeCompteEstIlBon(Nombres, Total, 0);
+            if (found)
             {
                 Console.WriteLine("Le compte est bon !");
                 AfficherRésultat();
-                Console.Read();
+                display("press any key to exit:");
+                Console.ReadKey();
                 return;
             }
 
             // LA solution n'ayant pas été trouvée, rechercher la solution la plus proche
-            int inc = 0;
+            int incrementation = 0;
             do
             {
-                trouvé = LeCompteEstIlBon(Nombres, Total + inc, 0);
-                if (trouvé == false)
+                found = LeCompteEstIlBon(Nombres, Total + incrementation, 0);
+                if (found == false)
                 {
-                    trouvé = LeCompteEstIlBon(Nombres, Total - inc, 0);
+                    found = LeCompteEstIlBon(Nombres, Total - incrementation, 0);
                 }
 
-                inc++;
-            } while (trouvé == false);
+                incrementation++;
+            } while (found == false);
             Console.WriteLine("Meilleure solution : ");
             AfficherRésultat();
             Console.Read();
@@ -241,15 +242,16 @@ namespace Le_compte_est_bon_NET48
 
                     // essayer l'addition de ces deux nombres  
                     // ajouter la somme au tableau des nombres restants
-                    int[] tr2 = new int[tableauRestant.Length + 1];
+                    int[] tableauRestant2 = new int[tableauRestant.Length + 1];
                     for (int k = 0; k < tableauRestant.Length; k++)
                     {
-                        tr2[k] = tableauRestant[k];
+                        tableauRestant2[k] = tableauRestant[k];
                     }
 
-                    tr2[tableauRestant.Length] = numbers[i] + numbers[j];
-                    Array.Sort(tr2); Array.Reverse(tr2);
-                    found = LeCompteEstIlBon(tr2, total, niveau + 1);
+                    tableauRestant2[tableauRestant.Length] = numbers[i] + numbers[j];
+                    Array.Sort(tableauRestant2); 
+                    Array.Reverse(tableauRestant2);
+                    found = LeCompteEstIlBon(tableauRestant2, total, niveau + 1);
                     if (found)
                     {
                         RetenirOpération(niveau, numbers[i], '+', numbers[j], numbers[i] + numbers[j], true);
@@ -258,17 +260,18 @@ namespace Le_compte_est_bon_NET48
 
                     // essayer la soustraction de ces deux nombres   
                     // ajouter la différence au tableau des nombres restants
-                    tr2 = new int[tableauRestant.Length + 1];
+                    tableauRestant2 = new int[tableauRestant.Length + 1];
                     for (int k = 0; k < tableauRestant.Length; k++)
                     {
-                        tr2[k] = tableauRestant[k];
+                        tableauRestant2[k] = tableauRestant[k];
                     }
 
-                    tr2[tableauRestant.Length] = numbers[i] - numbers[j];
-                    Array.Sort(tr2); Array.Reverse(tr2);
+                    tableauRestant2[tableauRestant.Length] = numbers[i] - numbers[j];
+                    Array.Sort(tableauRestant2); 
+                    Array.Reverse(tableauRestant2);
                     if (numbers[i] != numbers[j])
                     {
-                        found = LeCompteEstIlBon(tr2, total, niveau + 1);
+                        found = LeCompteEstIlBon(tableauRestant2, total, niveau + 1);
                         if (found)
                         {
                             RetenirOpération(niveau, numbers[i], '-', numbers[j], numbers[i] - numbers[j], true);
@@ -278,15 +281,16 @@ namespace Le_compte_est_bon_NET48
 
                     // essayer la multiplication de ces deux nombres   
                     // ajouter le produit au tableau des nombres restants
-                    tr2 = new int[tableauRestant.Length + 1];
+                    tableauRestant2 = new int[tableauRestant.Length + 1];
                     for (int k = 0; k < tableauRestant.Length; k++)
                     {
-                        tr2[k] = tableauRestant[k];
+                        tableauRestant2[k] = tableauRestant[k];
                     }
 
-                    tr2[tableauRestant.Length] = numbers[i] * numbers[j];
-                    Array.Sort(tr2); Array.Reverse(tr2);
-                    found = LeCompteEstIlBon(tr2, total, niveau + 1);
+                    tableauRestant2[tableauRestant.Length] = numbers[i] * numbers[j];
+                    Array.Sort(tableauRestant2); 
+                    Array.Reverse(tableauRestant2);
+                    found = LeCompteEstIlBon(tableauRestant2, total, niveau + 1);
                     if (found)
                     {
                         RetenirOpération(niveau, numbers[i], '*', numbers[j], numbers[i] * numbers[j], true);
@@ -296,15 +300,16 @@ namespace Le_compte_est_bon_NET48
                     // essayer la division de ces deux nombres 
                     if (numbers[i] % numbers[j] == 0)
                     {
-                        tr2 = new int[tableauRestant.Length + 1];
+                        tableauRestant2 = new int[tableauRestant.Length + 1];
                         for (int k = 0; k < tableauRestant.Length; k++)
                         {
-                            tr2[k] = tableauRestant[k];
+                            tableauRestant2[k] = tableauRestant[k];
                         }
 
-                        tr2[tableauRestant.Length] = numbers[i] / numbers[j];
-                        Array.Sort(tr2); Array.Reverse(tr2);
-                        found = LeCompteEstIlBon(tr2, total, niveau + 1);
+                        tableauRestant2[tableauRestant.Length] = numbers[i] / numbers[j];
+                        Array.Sort(tableauRestant2); 
+                        Array.Reverse(tableauRestant2);
+                        found = LeCompteEstIlBon(tableauRestant2, total, niveau + 1);
                         if (found)
                         {
                             RetenirOpération(niveau, numbers[i], '/', numbers[j], numbers[i] / numbers[j], true);
@@ -317,42 +322,42 @@ namespace Le_compte_est_bon_NET48
             return false;
         }
 
-        static bool TrouverDansDeux(int TOTAL, int N1, int N2, int Niv)
+        public static bool TrouverDansDeux(int total, int number1, int number2, int niveau)
         {
 
-            if (TOTAL == N1 + N2)
+            if (total == number1 + number2)
             {
-                RetenirOpération(Niv, N1, '+', N2, TOTAL, false);
+                RetenirOpération(niveau, number1, '+', number2, total, false);
                 return true;
             }
 
-            if (TOTAL == N1 - N2)
+            if (total == number1 - number2)
             {
-                RetenirOpération(Niv, N1, '-', N2, TOTAL, false);
+                RetenirOpération(niveau, number1, '-', number2, total, false);
                 return true;
             }
 
-            if (TOTAL == N2 - N1)
+            if (total == number2 - number1)
             {
-                RetenirOpération(Niv, N2, '-', N1, TOTAL, false);
+                RetenirOpération(niveau, number2, '-', number1, total, false);
                 return true;
             }
 
-            if (TOTAL == N1 * N2)
+            if (total == number1 * number2)
             {
-                RetenirOpération(Niv, N1, '*', N2, TOTAL, false);
+                RetenirOpération(niveau, number1, '*', number2, total, false);
                 return true;
             }
 
-            if (N1 > N2 && N1 % N2 == 0 && TOTAL == N1 / N2)
+            if (number1 > number2 && number1 % number2 == 0 && total == number1 / number2)
             {
-                RetenirOpération(Niv, N1, '/', N2, TOTAL, false);
+                RetenirOpération(niveau, number1, '/', number2, total, false);
                 return true;
             }
 
-            if (N2 > N1 && N2 % N1 == 0 && TOTAL == N2 / N1)
+            if (number2 > number1 && number2 % number1 == 0 && total == number2 / number1)
             {
-                RetenirOpération(Niv, N2, '/', N1, TOTAL, false);
+                RetenirOpération(niveau, number2, '/', number1, total, false);
                 return true;
             }
 
