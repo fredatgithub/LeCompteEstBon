@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeCompteEstBonAvecbibliothe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeCompteEstBon.UnitTest", "LeCompteEstBon.UnitTest\LeCompteEstBon.UnitTest.csproj", "{36A66A53-46C1-4A8C-A311-E251FCE47BAD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SearchForCountNotRight", "SearchForCountNotRight\SearchForCountNotRight.csproj", "{60A3014B-0C12-4ADD-B61A-07440915A723}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{36A66A53-46C1-4A8C-A311-E251FCE47BAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{36A66A53-46C1-4A8C-A311-E251FCE47BAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{36A66A53-46C1-4A8C-A311-E251FCE47BAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{60A3014B-0C12-4ADD-B61A-07440915A723}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{60A3014B-0C12-4ADD-B61A-07440915A723}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{60A3014B-0C12-4ADD-B61A-07440915A723}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{60A3014B-0C12-4ADD-B61A-07440915A723}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
