@@ -56,7 +56,7 @@ namespace LibraryLeCompteEstbon
       return result;
     }
 
-    public static bool IsTheCountJust(int number1, int number2, int number3, int number4, int number5, int number6, int totalToBeReached)
+    public static bool IsTheCountRight(int number1, int number2, int number3, int number4, int number5, int number6, int totalToBeReached)
     {
       int[] Nombres = new int[NumberOfNumbers];
       int theTotal;

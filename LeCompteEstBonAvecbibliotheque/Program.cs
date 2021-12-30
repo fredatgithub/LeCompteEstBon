@@ -12,7 +12,7 @@ namespace LeCompteEstBonAvecbibliotheque
       Display(string.Empty);
       Display("Recherche du total 111 avec les nombres 1,2,3,4,5,6");
       Display(string.Empty);
-      if (ClassLeCompteEstBon.IsTheCountJust(1, 2, 3, 4, 5, 6, 111))
+      if (ClassLeCompteEstBon.IsTheCountRight(1, 2, 3, 4, 5, 6, 111))
       {
         Console.ForegroundColor = ConsoleColor.Green;
         Display("Le compte est bon :");
