@@ -32,5 +32,14 @@ namespace LeCompteEstBon.UnitTest
       bool result = ClassLeCompteEstBon.IsTheCountRight(source[0], source[1], source[2], source[3], source[4], source[5], source[6]);
       Assert.AreEqual(result, expected);
     }
+
+    [TestMethod]
+    public void TestMethod_999()
+    {
+      string source = "1,2,3,4,5,6,999";
+      bool expected = true;
+      bool result = ClassLeCompteEstBon.IsTheCountRight(source[0], source[1], source[2], source[3], source[4], source[5], source[6]);
+      Assert.AreEqual(result, expected);
+    }
   }
 }

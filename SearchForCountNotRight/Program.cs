@@ -46,7 +46,8 @@ namespace SearchForCountNotRight
         });
       
       chrono.Stop();
-      Display($"Le temps en parallel est de : {chrono.ElapsedMilliseconds}"); //  19 014 milliseconds = 19 seconds
+      Console.ForegroundColor= ConsoleColor.Green;
+      Display($"Le temps en parallel est de : {chrono.ElapsedMilliseconds} millisecondes soit {chrono.ElapsedMilliseconds/1000} secondes"); //  19 014 milliseconds = 19 seconds
 
       Console.ForegroundColor = ConsoleColor.White;
       Display("Press any key to exit:");
